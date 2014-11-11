@@ -3,9 +3,12 @@ import requests
 import grequests
 import pandas as pd
 
-
-
-
+def minify(csv,price_range):
+    df = pd.read_csv(csv)
+    new_df = pd.DataFrame(columns=list(df.columns.values))
+    for row in df:
+        if df["price"] > price_range[1] and df["price"]<price_range[1]:
+            
 
 if __name__ == '__main__':
     base_url = "http://newyork.craigslist.org/search/hhh"
@@ -37,7 +40,7 @@ if __name__ == '__main__':
             except:
                 dicter["title"] = "no title given"
             try:
-                dicter["price"] = [x.text_content().encode("ascii","ignore") for x in html.xpath('//div[@class="content"]//span[@class="l2"]/span[@class="price"]')][ind]
+                dicter["price"] = int([x.text_content().encode("ascii","ignore") for x in html.xpath('//div[@class="content"]//span[@class="l2"]/span[@class="price"]')][ind].lstrip("$"))
             except:
                 dicter["price"] = "no price given"
             try:
