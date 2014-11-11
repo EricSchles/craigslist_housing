@@ -11,7 +11,9 @@ for i in xrange(1,20):
     
 rs = (grequests.get(u) for u in pages)
 responses = grequests.map(rs)
+all_links = []
 for r in responses:
     text = r.text.encode("ascii","ignore")
     html = lxml.html.fromstring(text)
-    html.xpath("//a")
+    links = html.xpath('//div[@class="content"]/a/@href')
+    all_links.append(links)
