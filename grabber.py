@@ -12,4 +12,6 @@ for i in xrange(1,20):
 rs = (grequests.get(u) for u in pages)
 responses = grequests.map(rs)
 for r in responses:
-    
+    text = r.text.encode("ascii","ignore")
+    html = lxml.html.fromstring(text)
+    html.xpath("//a")
