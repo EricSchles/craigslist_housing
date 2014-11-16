@@ -6,10 +6,12 @@ import pandas as pd
 def minify(csv,price_range):
     df = pd.read_csv(csv)
     new_df = pd.DataFrame(columns=list(df.columns.values))
-    for row in df:
-        if df["price"] > price_range[1] and df["price"]<price_range[1]:
+    for row in df.iterrows():
+        if row["price"] > price_range[1] and row["price"]<price_range[1]:
+            if "2br" in row["housing"]:
+                new_df = new_df.append(row,ignore_index=True)
+    new_df.to_csv("final.csv")
             
-
 if __name__ == '__main__':
     base_url = "http://newyork.craigslist.org/search/hhh"
 
@@ -58,3 +60,4 @@ if __name__ == '__main__':
             df = df.append(dicter,ignore_index=True)
 
     df.to_csv("results.csv")
+    minify("results.csv",[1000,3000])
